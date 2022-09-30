@@ -147,39 +147,39 @@ class LinkItemField extends FormField
 
         $fields = FieldList::create([
             TextField::create('Title'),
-            DropdownField::create('LinkType', 'Link Type')
+            DropdownField::create('LinkType', 'Link-Typ')
                 ->addExtraClass('link-item-switcher')
-                ->setEmptyString('- select type -')
+                ->setEmptyString('- auswählen -')
                 ->setSource($obj->getMenuItems()),
             FieldGroup::create(
-                TextField::create('Anchor', 'Anchor Link (without #)')
+                TextField::create('Anchor', 'Anker-Link (ohne #)')
                     ->addExtraClass('link-hidden link-anchor'),
-                TreeDropdownField::create('InternalLinkID', 'Internal Link', SiteTree::class)
-                    ->addExtraClass('link-hidden link-internal'),
-                TextField::create('ExternalLink')
+                TreeDropdownField::create('InternalLinkID', 'Interner Link', SiteTree::class)
+                    ->addExtraClass('link-hidden link-internal link-anchor'),
+                TextField::create('ExternalLink', 'Externer Link')
                     ->addExtraClass('link-hidden link-external'),
-                EmailField::create('Email', 'Email (without mailto:)')
+                EmailField::create('Email', 'E-Mail (ohne mailto:)')
                     ->addExtraClass('link-hidden link-email'),
-                TextField::create('Telephone', 'Telephone')
+                TextField::create('Telephone', 'Telefon')
                     ->addExtraClass('link-hidden link-telephone'),
-                UploadField::create('File', 'File')
+                UploadField::create('File', 'Datei')
                     ->addExtraClass('link-hidden link-file')
                     ->setFolderName('Uploads')
                     ->setAllowedFileCategories($this->fileCategories),
-                UploadField::create('Image', 'Image')
+                UploadField::create('Image', 'Bild')
                     ->addExtraClass('link-hidden link-image')
                     ->setFolderName('Uploads')
                     ->setAllowedFileCategories($this->imageCategories)
             )->addExtraClass('link-items'),
-            DropdownField::create('Target', 'Open in:')
-                ->setEmptyString('- select type -')
+            DropdownField::create('Target', 'Öffnen in:')
+                ->setEmptyString('- auswählen -')
                 ->setSource($obj->getTargets())
         ]);
         $fields->push(HiddenField::create('Relation')->setValue($this->getRequest()->postVar('Name')));
         if($obj->ID > 0) {
             $fields->push(HiddenField::create('ID'));
         }
-        $actions = FieldList::create(FormAction::create('doSubmit', 'Insert Link')
+        $actions = FieldList::create(FormAction::create('doSubmit', 'Link einfügen')
             ->addExtraClass('btn btn-primary action'));
 
         $validator = $obj->getCMSValidator();
@@ -263,7 +263,7 @@ class LinkItemField extends FormField
         if($this->Value() < 1) {
             $validator->validationError(
                 $this->getName(),
-                'This field is required. Please add a link.',
+                'Dieses Feld is ein Pflichtfeld. Bitte fügen Sie einen Link ein.',
                 'validation'
             );
             return false;

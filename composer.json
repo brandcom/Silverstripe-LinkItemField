@@ -1,5 +1,5 @@
 {
-    "name": "cyber-duck/silverstripe-linkitemfield",
+    "name": "brandcom/silverstripe-linkitemfield",
     "description": "SilverStripe 4 custom form element for anchor, email, telephone, file, image, internal and external links",
     "type": "silverstripe-vendormodule",
     "homepage": "http://github.com/cyber-duck/silverstripe-linkitemfield",

@@ -121,30 +121,30 @@ class LinkItem extends DataObject
     {
         $fields = FieldList::create([
             TextField::create('Title'),
-            DropdownField::create('LinkType', 'Link Type')
+            DropdownField::create('LinkType', 'Link-Typ')
                 ->addExtraClass('link-item-switcher')
-                ->setEmptyString('- select type -')
+                ->setEmptyString('- auswählen -')
                 ->setSource(singleton(LinkItem::class)->getMenuItems()),
-            TextField::create('Anchor', 'Anchor Link (without #)')
+            TextField::create('Anchor', 'Anker-Link (ohne #)')
                 ->hideUnless('LinkType')->isEqualTo('anchor')->end(),
-            Wrapper::create(TreeDropdownField::create('InternalLinkID', 'Internal Link', SiteTree::class))
+            Wrapper::create(TreeDropdownField::create('InternalLinkID', 'Interner Link', SiteTree::class))
                 ->hideUnless('LinkType')->isEqualTo('internal')->end(),
-            TextField::create('ExternalLink')
+            TextField::create('ExternalLink', 'Externer Link')
                 ->hideUnless('LinkType')->isEqualTo('external')->end(),
-            EmailField::create('Email', 'Email (without mailto:)')
+            EmailField::create('Email', 'E-Mail (ohne mailto:)')
                 ->hideUnless('LinkType')->isEqualTo('email')->end(),
-            TextField::create('Telephone', 'Telephone')
+            TextField::create('Telephone', 'Telefon')
                 ->hideUnless('LinkType')->isEqualTo('telephone')->end(),
-            UploadField::create('File', 'File')
+            UploadField::create('File', 'Datei')
                 ->setFolderName('Uploads')
                 ->setAllowedFileCategories('document')
                 ->hideUnless('LinkType')->isEqualTo('file')->end(),
-            UploadField::create('Image', 'Image')
+            UploadField::create('Image', 'Bild')
                 ->setFolderName('Uploads')
                 ->setAllowedFileCategories('image/supported')
                 ->hideUnless('LinkType')->isEqualTo('image')->end(),
-            DropdownField::create('Target', 'Open in:')
-                ->setEmptyString('- select type -')
+            DropdownField::create('Target', 'Öffnen in:')
+                ->setEmptyString('- auswählen -')
                 ->setSource(singleton(LinkItem::class)->getTargets()),
         ]);
         $this->extend('updateCMSFields', $fields);
@@ -178,7 +178,7 @@ class LinkItem extends DataObject
         $link = '';
         switch($this->LinkType) {
             case 'anchor':
-                $link = '#'.$this->Anchor;
+                $link = ($this->InternalLink()->Link() ? : '') . '#'.$this->Anchor;
             break;
             case 'internal':
                 $link = $this->InternalLink()->Link();
@@ -213,13 +213,13 @@ class LinkItem extends DataObject
     public function getMenuItems()
     {
         $items = [
-            'anchor'    => 'Anchor link',
-            'internal'  => 'Internal Link',
-            'external'  => 'External Link',
-            'email'     => 'Email',
-            'telephone' => 'Telephone',
-            'file'      => 'File',
-            'image'     => 'Image'
+            'anchor'    => 'Anker-Link',
+            'internal'  => 'Interner Link',
+            'external'  => 'Externer Link',
+            'email'     => 'E-Mail',
+            'telephone' => 'Telefon',
+            'file'      => 'Datei',
+            'image'     => 'Bild'
         ];
         $this->extend('updateMenuItems', $items);
         return $items;
@@ -235,7 +235,7 @@ class LinkItem extends DataObject
     public function getTargets()
     {
         return [
-            '_blank' => 'New tab'
+            '_blank' => 'Neuer Tab'
         ];
     }
 }

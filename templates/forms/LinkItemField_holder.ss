@@ -5,7 +5,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Add Link Item</h4>
+                        <h4 class="modal-title">Link hinzufügen</h4>
                         <button type="button" class="close" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
